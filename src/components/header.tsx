@@ -1,15 +1,12 @@
 "use client"
-
-import { Button } from "@/components/ui/button"
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs"
-import { useAuth } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
+import { Button } from "./ui/button"
 
 export function Header() {
-  const { signOut } = useAuth()
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur  border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/">
@@ -21,9 +18,6 @@ export function Header() {
             </span>
           </Link>
         </div>
-
-
-
         <div className="flex items-center gap-3">
           <nav className="hidden md:flex items-center justify-end gap-8">
             <Link href="#feLinktures" className="text-foreground/70 hover:text-foreground transition">
@@ -37,16 +31,14 @@ export function Header() {
             </Link>
           </nav>
           <SignedOut>
-            <Button variant="ghost" className="text-foreground">
-              Login
-            </Button>
+            <SignInButton>
+              <Button>Entrar</Button>
+            </SignInButton>
           </SignedOut>
           <SignedIn>
-            <Button onClick={() => signOut()} >
-              Logout
-            </Button>
+           <SignOutButton>Sair</SignOutButton>
+          <UserButton showName={true} />
           </SignedIn>
-          <UserButton />
         </div>
       </div>
     </header>

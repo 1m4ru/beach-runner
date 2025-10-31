@@ -29,14 +29,15 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <SignedOut>
                 <SignInButton>
-              <Button>
-                Crie Sua Conta
-              </Button>
-              </SignInButton>
+                  <div className="flex gap-4">
+                    <Button>Crie Sua Conta</Button>
+                    <Button>Entrar</Button>
+                  </div>
+                </SignInButton>
               </SignedOut>
               <SignedIn>
                 <Link href="/dashboard">
-                <Button>Dashboard</Button>
+                  <Button>Dashboard</Button>
                 </Link>
               </SignedIn>
             </div>
