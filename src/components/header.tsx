@@ -19,17 +19,6 @@ export function Header() {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <nav className="hidden md:flex items-center justify-end gap-8">
-            <Link href="#feLinktures" className="text-foreground/70 hover:text-foreground transition">
-              Funcionalidades
-            </Link>
-            <Link href="#stats" className="text-foreground/70 hover:text-foreground transition">
-              Resultados
-            </Link>
-            <Link href="#cta" className="text-foreground/70 hover:text-foreground transition">
-              Sobre
-            </Link>
-          </nav>
           <SignedOut>
             <SignInButton>
               <Button>Entrar</Button>

@@ -1,6 +1,5 @@
 "use client"
 
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -11,33 +10,55 @@ import { training_session } from "@/generated/prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { createOrUpdateTrainingSession } from "@/server/training_session/actions"
 import { DateTimePicker } from "@/components/ui/datetime-picker"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
-export function AddSessionForm() {
+
+
+export const AddSessionForm = () => {
     const [date, setDate] = useState<Date | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const router = useRouter()
 
     const handleSubmit = async (formData: FormData) => {
-
         const date = formData.get("date")
         const distance = formData.get("distance_km")
         const duration = formData.get("duration_minutes")
         const calories = formData.get("calories_burned_kcal")
         const pace = formData.get("average_pace_km_per_min")
 
-        const trainingSession: training_session = {
-            id: BigInt(0),
-            external_user_id: "",
-            session_datetime: new Date(date as string),
-            distance_km: parseFloat(distance as string) as unknown as Decimal,
-            duration_minutes: parseInt(duration as string),
-            calories_burned_kcal: parseInt(calories as string),
-            average_pace_km_per_min: parseFloat(pace as string) as unknown as Decimal,
+        if (!date || !distance || !duration || !calories || !pace) {
+            toast.error("Preencha todos os campos!")
+            return
         }
 
-        await createOrUpdateTrainingSession(trainingSession)
+        try {
+            setIsSubmitting(true)
 
+            const trainingSession: training_session = {
+                id: BigInt(0),
+                external_user_id: "",
+                session_datetime: new Date(date as string),
+                distance_km: parseFloat(distance as string) as unknown as Decimal,
+                duration_minutes: parseInt(duration as string),
+                calories_burned_kcal: parseInt(calories as string),
+                average_pace_km_per_min: parseFloat(pace as string) as unknown as Decimal,
+            }
 
+            await createOrUpdateTrainingSession(trainingSession)
+            toast.success("Corrida adicionada com sucesso!")
+
+            router.refresh();
+            setDate(undefined)
+            const form = (document.getElementById("add-session-form") as HTMLFormElement)
+            form?.reset()
+        } catch (error) {
+            console.error("Erro ao adicionar corrida:", error)
+            toast.error("Não foi possível adicionar a corrida")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
-
     return (
         <Card>
             <CardHeader>
@@ -55,6 +76,11 @@ export function AddSessionForm() {
                         <DateTimePicker
                             value={date}
                             onChange={(newDate) => setDate(newDate)}
+                        />
+                        <Input
+                            type="hidden"
+                            name="date"
+                            value={date ? date.toISOString() : ""}
                         />
                     </div>
                     <div>
@@ -112,7 +138,7 @@ export function AddSessionForm() {
                     </div>
 
                     <Button type="submit" className="w-full">
-                        "Adicionar Corrida"
+                        Adicionar Corrida
                     </Button>
                 </form>
             </CardContent>

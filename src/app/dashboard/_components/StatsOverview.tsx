@@ -1,66 +1,89 @@
-// "use client"
+"use client"
 
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-// import { Activity, Flame, Zap, Clock } from "lucide-react"
+import { TrendingUp } from "lucide-react"
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
-// // export const StatsOverview = () => {
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart"
+import { training_session } from "@prisma/client"
 
-//   const stats = {
-//     totalSessions: sessions.length,
-//     totalDistance: sessions.reduce((sum, s) => sum + Number(s.distance_km), 0),
-//     totalCalories: sessions.reduce((sum, s) => sum + s.calories_burned_kcal, 0),
-//     totalTime: sessions.reduce((sum, s) => sum + s.duration_minutes, 0),
-//   }
+export const description = "A line chart with dots"
 
-//   const averagePace = stats.totalTime > 0 ? (stats.totalDistance / stats.totalTime).toFixed(2) : "0.00"
+const chartConfig = {
+    desktop: {
+        label: "Desktop",
+        color: "var(--chart-1)",
+    },
+    mobile: {
+        label: "Mobile",
+        color: "var(--chart-2)",
+    },
+} satisfies ChartConfig
 
-//   return (
-//     <div className="grid gap-4 md:grid-cols-4">
-//       <Card>
-//         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//           <CardTitle className="text-sm font-medium">Total de Corridas</CardTitle>
-//           <Activity className="h-4 w-4 text-muted-foreground" />
-//         </CardHeader>
-//         <CardContent>
-//           <div className="text-2xl font-bold">{stats.totalSessions}</div>
-//           <p className="text-xs text-muted-foreground">sessões de treino</p>
-//         </CardContent>
-//       </Card>
+type DashboardLineProps = {
+    sessions: training_session[]
+}
 
-//       <Card>
-//         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//           <CardTitle className="text-sm font-medium">Distância Total</CardTitle>
-//           <Zap className="h-4 w-4 text-muted-foreground" />
-//         </CardHeader>
-//         <CardContent>
-//           <div className="text-2xl font-bold">{stats.totalDistance.toFixed(1)}</div>
-//           <p className="text-xs text-muted-foreground">km percorridos</p>
-//         </CardContent>
-//       </Card>
+export const StatsOverview = ({ sessions }: DashboardLineProps) => {
+    return (
+        <Card className="h-[250px] sm:h-[300px] md:h-[350px]">
+            <CardHeader>
+                <CardTitle>KM Corridods por Dia</CardTitle>
+                <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent className="h-[250px] w-full overflow-hidden">
+                <ChartContainer config={chartConfig} className="w-full h-full">
+                    <LineChart
+                        width={500}
+                        height={250}
+                        data={sessions}
+                        margin={{
+                            top: 10,
+                            right: 10,
+                            left: 10,
+                            bottom: 10,
+                        }}
+                    >
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="session_datetime"
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            tickFormatter={(value) =>
+                                new Date(value).toLocaleDateString("pt-BR", {
+                                    day: "2-digit",
+                                    month: "short",
+                                })
+                            }
+                        />
 
-//       <Card>
-//         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//           <CardTitle className="text-sm font-medium">Calorias Queimadas</CardTitle>
-//           <Flame className="h-4 w-4 text-muted-foreground" />
-//         </CardHeader>
-//         <CardContent>
-//           <div className="text-2xl font-bold">{stats.totalCalories}</div>
-//           <p className="text-xs text-muted-foreground">kcal totais</p>
-//         </CardContent>
-//       </Card>
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                        <Line
+                            dataKey="distance_km"
+                            type="monotone"
+                            stroke="var(--color-desktop)"
+                            strokeWidth={2}
+                            dot={{ fill: "var(--color-desktop)" }}
+                            activeDot={{ r: 6 }}
+                        />
+                    </LineChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    )
+}
 
-//       <Card>
-//         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//           <CardTitle className="text-sm font-medium">Ritmo Médio</CardTitle>
-//           <Clock className="h-4 w-4 text-muted-foreground" />
-//         </CardHeader>
-//         <CardContent>
-//           <div className="text-2xl font-bold">{averagePace}</div>
-//           <p className="text-xs text-muted-foreground">km/min</p>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   )
-// }
-
-// export default StatsOverview;
+export default StatsOverview;
