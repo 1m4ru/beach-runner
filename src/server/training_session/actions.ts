@@ -2,7 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { Decimal } from "@prisma/client/runtime/library";
-import { PrismaClient, training_session as PrismaTrainingSession } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { TrainingSession } from "@/types/training-session";
 
 const prisma = new PrismaClient();
@@ -42,7 +42,7 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
   })
 
   const plainSessions: TrainingSession[] = sessions.map(
-    (s: PrismaTrainingSession): TrainingSession => ({
+    (s: Prisma.training_sessionGetPayload<{}>): TrainingSession => ({
       id: s.id,
       external_user_id: s.external_user_id,
       session_datetime: s.session_datetime.toISOString(),
