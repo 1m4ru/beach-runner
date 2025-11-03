@@ -42,7 +42,7 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
   })
 
   const plainSessions: TrainingSession[] = sessions.map(
-    (s: Prisma.training_sessionGetPayload<{}>): TrainingSession => ({
+    (s: (typeof sessions)[number]): TrainingSession => ({
       id: s.id,
       external_user_id: s.external_user_id,
       session_datetime: s.session_datetime.toISOString(),
@@ -53,8 +53,7 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
     })
   );
   return plainSessions;
-
-}
+};
 
 export async function getTrainingAvgPace() {
   const user = await currentUser();
