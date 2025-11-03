@@ -1,13 +1,12 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { Highlight } from "./ui/Highlight"
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
-import Link from "next/link"
+import { AuthButtons } from "./auth-buttons"
+
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 ">
+    <section className="relative overflow-hidden py-10 ">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,20 +25,8 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <SignedOut>
-                <SignInButton>
-                  <div className="flex gap-4">
-                    <Button>Crie Sua Conta</Button>
-                    <Button>Entrar</Button>
-                  </div>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/dashboard">
-                  <Button>Dashboard</Button>
-                </Link>
-              </SignedIn>
+            <div className="flex gap-4 mt-6">
+              <AuthButtons mode="cta"  />
             </div>
 
             <div className="flex items-center gap-6 pt-4">

@@ -1,10 +1,10 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { AuthButtons } from "./auth-buttons"
 
 export function CTA() {
   return (
-    <section id="cta" className="py-20 md:py-32 bg-gradient-to-r from-primary/10 to-accent/10">
+    <section id="cta" className="py-8 md:py-16 bg-gradient-to-r from-primary/10 to-accent/10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground text-balance">
@@ -16,11 +16,8 @@ export function CTA() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-base">
-            Criar Conta Grátis
-          </Button>
+          <AuthButtons mode="signup" />
         </div>
-
         <p className="text-sm text-foreground/60">✨ Sem cartão de crédito necessário. Comece em segundos.</p>
       </div>
     </section>

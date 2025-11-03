@@ -1,13 +1,9 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
-
+import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -17,9 +13,9 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-import { training_session } from "@prisma/client"
+import { useFormattedSessions } from "@/hooks/useFormattedSession"
+import { getTrainingSessions } from "@/server/training_session/actions"
 
-export const description = "A line chart with dots"
 
 const chartConfig = {
     desktop: {
@@ -32,58 +28,63 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
+type SessionsClient = Awaited<ReturnType<typeof getTrainingSessions>>
+
 type DashboardLineProps = {
-    sessions: training_session[]
+    sessions: SessionsClient
 }
 
 export const StatsOverview = ({ sessions }: DashboardLineProps) => {
+
+    const formattedSessions = useFormattedSessions(sessions)
+
     return (
         <Card className="h-[250px] sm:h-[300px] md:h-[350px]">
             <CardHeader>
-                <CardTitle>KM Corridods por Dia</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>KM Corridos por Dia</CardTitle>
             </CardHeader>
             <CardContent className="h-[250px] w-full overflow-hidden">
                 <ChartContainer config={chartConfig} className="w-full h-full">
-                    <LineChart
-                        width={500}
-                        height={250}
-                        data={sessions}
-                        margin={{
-                            top: 10,
-                            right: 10,
-                            left: 10,
-                            bottom: 10,
-                        }}
-                    >
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="session_datetime"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            tickFormatter={(value) =>
-                                new Date(value).toLocaleDateString("pt-BR", {
-                                    day: "2-digit",
-                                    month: "short",
-                                })
-                            }
-                        />
-
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-                        <Line
-                            dataKey="distance_km"
-                            type="monotone"
-                            stroke="var(--color-desktop)"
-                            strokeWidth={2}
-                            dot={{ fill: "var(--color-desktop)" }}
-                            activeDot={{ r: 6 }}
-                        />
-                    </LineChart>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            data={formattedSessions}
+                            margin={{ top: 10, right: 40, left: 40, bottom: 40 }}
+                        >
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="session_datetime"
+                                tickLine={false}
+                                axisLine={false}
+                                tick={{ fontSize: 12, fill: '#666' }}
+                                angle={window.innerWidth < 640 ? -45 : 0}
+                                textAnchor={window.innerWidth < 640 ? "end" : "middle"}
+                                tickFormatter={(value) =>
+                                    new Date(value).toLocaleDateString("pt-BR", {
+                                        day: "2-digit",
+                                        month: "short",
+                                    })
+                                }
+                            />
+                            <YAxis hide domain={["auto", "auto"]} />
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent hideLabel />}
+                            />
+                            <Line
+                                dataKey="distance_km"
+                                type="monotone"
+                                stroke="var(--color-desktop)"
+                                strokeWidth={2}
+                                dot={{ fill: "var(--color-desktop)", r: 4 }}
+                                activeDot={{ r: 6 }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </ChartContainer>
             </CardContent>
+
         </Card>
     )
 }
 
-export default StatsOverview;
+export default StatsOverview

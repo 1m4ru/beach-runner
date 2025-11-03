@@ -19,6 +19,13 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        sunset:
+        "bg-gradient-to-r from-orange-500 to-yellow-400 text-white font-semibold shadow hover:opacity-90 hover:scale-[1.02] transition-transform",
+        beach:
+          "text-white font-semibold bg-gradient-to-r from-orange-500 via-amber-400 to-yellow-400 " +
+          "hover:from-orange-600 hover:via-amber-500 hover:to-yellow-500 " +
+          "shadow-md hover:shadow-lg transition-all duration-200 " +
+          "focus-visible:ring-2 focus-visible:ring-amber-400/40 rounded-lg",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

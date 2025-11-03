@@ -1,111 +1,50 @@
 "use client"
 
 import Link from "next/link"
+import { Separator } from "@/components/ui/separator"
+import { Linkedin, Github } from "lucide-react"
 
 export function Footer() {
-
-  const footerLinks =[
-    {
-      title: "Produto",
-      items: [
-        {label: "Funcionalidades", href: "#features"},
-        {label: "Preços", href: "#pricing"},
-        {label: "Segurança", href: "#security"},
-      ]
-    },
-    {
-      title: "Empresa",
-      items: [
-        {label: "Sobre", href: "#about"},
-        {label: "Blog", href: "#blog"},
-        {label: "Contato", href: "#contact"},
-      ]
-    }
-  ]
   return (
-    <footer className="bg-foreground/5 border-t border-border py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">🏃</span>
-              </div>
-              <span className="font-bold text-foreground">Beach Runner</span>
+    <footer className="bg-muted/30 py-10 border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-3 text-center sm:text-left">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center">
+              <span className="text-white text-lg font-semibold">🏃‍♂️</span>
             </div>
-            <p className="text-sm text-foreground/70">Rastreie seus treinos, domine seu desempenho.</p>
+            <span className="font-bold text-xl bg-gradient-to-r from-orange-500 to-yellow-400 bg-clip-text text-transparent">
+              Beach Runner
+            </span>
           </div>
-
-          <div>
-          {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h4 className="font-semibold text-foreground mb-4">{section.title}</h4>
-              <ul className="space-y-2 text-sm text-foreground/70">
-                {section.items.map((item) => (
-                  <li key={item.label}>
-                    <Link href={item.href} className="hover:text-foreground transition">{item.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Empresa</h4>
-            <ul className="space-y-2 text-sm text-foreground/70">
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Sobre
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Contato
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm text-foreground/70">
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Privacidade
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Termos
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition">
-                  Cookies
-                </a>
-              </li>
-            </ul>
-          </div>
+          <span className="text-sm text-muted-foreground hidden sm:inline-block">
+            — Rastreie seus treinos e domine seu desempenho.
+          </span>
         </div>
+        <Separator className="my-4 sm:hidden" />
+        <div className="flex flex-col sm:flex-row items-center justify-between w-full sm:w-auto gap-3">
+          <p className="text-sm text-muted-foreground text-center sm:text-left">
+            © 2025 Beach Runner. Este é um projeto de portfólio desenvolvido por{" "}
+            <span className="font-medium text-foreground">Maruan Moussa</span>.
+          </p>
 
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm text-foreground/60">© 2025 Beach Runner. Todos os direitos reservados.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#" className="text-foreground/60 hover:text-foreground transition">
-              Twitter
-            </a>
-            <a href="#" className="text-foreground/60 hover:text-foreground transition">
-              Instagram
-            </a>
-            <a href="#" className="text-foreground/60 hover:text-foreground transition">
-              LinkedIn
-            </a>
+          <div className="flex gap-4">
+            <Link
+              href="https://www.linkedin.com/in/maruan-moussa/"
+              target="_blank"
+              className="hover:text-orange-500 transition"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={20} />
+            </Link>
+            <Link
+              href="https://github.com/1m4ru"
+              target="_blank"
+              className="hover:text-orange-500 transition"
+              aria-label="GitHub"
+            >
+              <Github size={20} />
+            </Link>
           </div>
         </div>
       </div>
