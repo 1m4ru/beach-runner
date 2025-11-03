@@ -56,8 +56,8 @@ export const StatsOverview = ({ sessions }: DashboardLineProps) => {
                                 tickLine={false}
                                 axisLine={false}
                                 tick={{ fontSize: 12, fill: '#666' }}
-                                angle={window.innerWidth < 640 ? -45 : 0}
-                                textAnchor={window.innerWidth < 640 ? "end" : "middle"}
+                                angle={typeof window !== "undefined" && window.innerWidth < 640 ? -45 : 0}
+                                textAnchor={typeof window !== "undefined" && window.innerWidth < 640 ? "end" : "middle"}
                                 tickFormatter={(value) =>
                                     new Date(value).toLocaleDateString("pt-BR", {
                                         day: "2-digit",

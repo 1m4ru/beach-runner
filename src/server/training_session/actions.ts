@@ -2,7 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { Decimal } from "@prisma/client/runtime/library";
-import { PrismaClient }  from "@prisma/client";
+import { PrismaClient, training_session }  from "@prisma/client";
 import { TrainingSession } from "@/types/training-session";
 
 const prisma = new PrismaClient();
@@ -41,17 +41,19 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
     orderBy: { session_datetime: "asc" },
   })
 
-  const plainSessions: TrainingSession[] = sessions.map((s): TrainingSession => ({
-    id: s.id,
-    external_user_id: s.external_user_id,
-    session_datetime: s.session_datetime.toISOString(),
-    distance_km: Number(s.distance_km),
-    duration_minutes: s.duration_minutes,
-    calories_burned_kcal: Number(s.calories_burned_kcal),
-    average_pace_km_per_min: Number(s.average_pace_km_per_min),
-  }))
+  const plainSessions: TrainingSession[] = sessions.map(
+    (s: training_session): TrainingSession => ({
+      id: s.id,
+      external_user_id: s.external_user_id,
+      session_datetime: s.session_datetime.toISOString(),
+      distance_km: Number(s.distance_km),
+      duration_minutes: s.duration_minutes,
+      calories_burned_kcal: Number(s.calories_burned_kcal),
+      average_pace_km_per_min: Number(s.average_pace_km_per_min),
+    })
+  );
+  return plainSessions;
 
-  return plainSessions
 }
 
 export async function getTrainingAvgPace() {
@@ -64,6 +66,5 @@ export async function getTrainingAvgPace() {
     WHERE external_user_id = ${user.id}
   `;
 
-  // Converte Decimal para number
   return result[0]?.avg?.toNumber() ?? 0;
 }
