@@ -43,7 +43,7 @@ export async function getTrainingSessions(): Promise<TrainingSession[]> {
 
   const plainSessions: TrainingSession[] = sessions.map(
     (s: (typeof sessions)[number]): TrainingSession => ({
-      id: s.id,
+      id: Number(s.id),
       external_user_id: s.external_user_id,
       session_datetime: s.session_datetime.toISOString(),
       distance_km: Number(s.distance_km),
