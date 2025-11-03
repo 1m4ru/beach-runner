@@ -1,5 +1,4 @@
 import { Suspense } from "react"
-import { getTrainingSessions } from "@/server/training_session/actions"
 import { AddSessionForm } from "./_components/AddSessionForm"
 import { StatsOverview } from "./_components/StatsOverview"
 import { TrainingSessionsList } from "./_components/training/TrainingSessionsList"
@@ -8,6 +7,7 @@ import { DashboardSkeleton } from "./_components/DashboardSkeleton"
 export const dynamic = "force-dynamic";
 
 export const Dashboard = async () => {
+  const { getTrainingSessions } = await import("@/server/training_session/actions");
   const sessions = await getTrainingSessions()
 
   return (
