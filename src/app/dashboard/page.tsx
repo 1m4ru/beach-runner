@@ -5,6 +5,8 @@ import { StatsOverview } from "./_components/StatsOverview"
 import { TrainingSessionsList } from "./_components/training/TrainingSessionsList"
 import { DashboardSkeleton } from "./_components/DashboardSkeleton"
 
+export const dynamic = "force-dynamic";
+
 export const Dashboard = async () => {
   const sessions = await getTrainingSessions()
 
@@ -29,4 +31,4 @@ export const Dashboard = async () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;
